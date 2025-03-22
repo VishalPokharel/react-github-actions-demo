@@ -10,3 +10,4 @@ jobs:
           echo "cloning repository..."
           echo "${{toJson(github)}}"
           git clone https://github.com/${{github.repository}}.git
+ 
