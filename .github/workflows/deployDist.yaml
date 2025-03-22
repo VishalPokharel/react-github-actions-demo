@@ -5,7 +5,6 @@ on:
     branches:
       - main
     paths-ignore:
-      - '.github/workflows/*'
       - README.md
   workflow_dispatch:
     
@@ -26,11 +25,6 @@ jobs:
       - name: check node version 
         run: node -v
 
-      - name: Get npm cache directory
-        id: npm-cache-dir
-        shell: bash
-        run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
-
       - name: cache dependencies
         uses: actions/cache@v4
         with:
@@ -40,8 +34,10 @@ jobs:
         run: npm ci #clean install ( package-lock file has exact version mentioned.)
       - name: run tests
         run: npm run test
+      - name: test
+        run: echo "test success"
 
-  deploy:
+  build:
     needs: test
     runs-on: ubuntu-latest
     steps:
@@ -66,8 +62,27 @@ jobs:
         run: npm ci 
       - name: build project
         run: npm run build
-      - name: deploy 
+      - name: upload build artifacts
+        uses: actions/upload-artifacts@v4
+        with:
+          name: dist-files
+          path: dist
+      - name: build
         run: echo "build success"
+
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: download build artifacts
+        uses: actions/download-artifacts@v4
+        with:
+          name: dist-files
+          path: dist
+
+      - name: deploy 
+        run: echo "deploye success"
 
 
 
