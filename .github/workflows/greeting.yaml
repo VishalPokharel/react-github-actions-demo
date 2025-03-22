@@ -1,0 +1,9 @@
+name: saying hello world
+on: push
+
+jobs: 
+  greet:
+    runs-on: self-hosted #ubuntu-latest
+    steps:
+      - name: say hello
+        run: echo "hello world"
