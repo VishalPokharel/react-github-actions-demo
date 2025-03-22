@@ -3,7 +3,7 @@ on: push
 
 jobs: 
   greet:
-    runs-on: self-hosted #ubuntu-latest
+    runs-on: ubuntu-latest #self-hosted should:requires installation for every repo in personal account.
     steps:
       - name: say hello
         run: echo "hello world"
