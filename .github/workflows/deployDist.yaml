@@ -17,9 +17,49 @@ jobs:
           node-version: 20
       - name: check node version 
         run: node -v
+
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        shell: bash
+        run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
+
+      - name: cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
       - name: install dependencies
         run: npm ci #clean install ( package-lock file has exact version mentioned.)
       - name: run tests
         run: npm run test
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: get code
+        uses: actions/checkout@v4
+      - name: setup node js 
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: check node version 
+        run: node -v
+
+
+      - name: cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+     
+
+      - name: install dependencies
+        run: npm ci 
+      - name: build project
+        run: npm run build
+      - name: deploy 
+        run: echo "build success"
+
 
 
