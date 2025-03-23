@@ -4,7 +4,7 @@ function App() {
 
   return (
     <>
-      <h1>Github Actions</h1>
+      <h1>Github Actions Again hai</h1>
       <h2>Trying different simple implementations including sonarcloud...</h2>
     </>
   )
